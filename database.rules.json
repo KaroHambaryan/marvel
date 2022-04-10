@@ -1,6 +1,8 @@
 {
 	"rules": {
-		".read": true,
-		".write": true
+		".read": true, // 2022-5-8
+		".write": true, // 2022-5-8
 	}
 }
+// now < 1651953600000
+// now < 1651953600000
