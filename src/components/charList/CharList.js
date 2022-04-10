@@ -41,21 +41,22 @@ const CharList = (props) => {
 
 	const focusOnItem = (id) => {
 
-
 		itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
 		itemRefs.current[id].classList.add('char__item_selected');
 		itemRefs.current[id].focus();
+
 	}
 
 
 
 	function renderItems(arr) {
+
 		const items = arr.map((item, i) => {
+			
 			let imgStyle = { 'objectFit': 'cover' };
 			if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
 				imgStyle = { 'objectFit': 'unset' };
 			}
-
 			return (
 				<li
 					className="char__item"
