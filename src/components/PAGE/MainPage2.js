@@ -1,18 +1,21 @@
 import { useState } from "react";
 
 import Randomevent from "../randomevent/Randomevent";
-import eventList from "../eventList/eventList";
-import eventInfo from "../eventInfo/eventInfo";
+import eventList2 from "../charList/EventList2";
+import eventInfo2 from "../charInfo/EventInfo2";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 import decoration from '../../resources/img/vision.png';
+import { useEffect } from "react";
 
-const MainPage = () => {
+const MainPage2 = () => {
 
-	const [selectedevent, setevent] = useState(null);
+	const [event, setEvent] = useState(null);
 
-	const oneventSelected = (id) => {
-		setevent(id);
+	const onEventSelected = (id) => {
+
+		setEvent(id);
+
 	}
 
 	return (
@@ -22,15 +25,16 @@ const MainPage = () => {
 			</ErrorBoundary>
 			<div className="event__content">
 				<ErrorBoundary>
-					<eventList oneventSelected={oneventSelected} />
+					<eventList2 oneventSelected={onEventSelected} />
 				</ErrorBoundary>
 				<ErrorBoundary>
-					<eventInfo eventId={selectedevent} />
+					<eventInfo2 eventId={event} />
 				</ErrorBoundary>
+
 			</div>
 			<img className="bg-decoration" src={decoration} alt="vision" />
 		</>
 	)
 }
 
-export default MainPage;
+export default MainPage2;

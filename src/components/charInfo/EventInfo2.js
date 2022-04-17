@@ -1,36 +1,40 @@
 import { useState, useEffect } from 'react';
+import { db } from "../lib/firebase"
+import { collection } from "firebase/firestore";
+
 import PropTypes from 'prop-types';
 
-import useMarvelService from '../../services/MarvelService';
+import useEventService2 from '../../services/EventService2';
+
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
 import './eventInfo.scss';
 
-const eventInfo = (props) => {
+const eventInfo2 = (props) => {
 
-	const [event, setevent] = useState(null);
+	const [event, setEvent] = useState(null);
 
-	const { loading, error, geteventacter, clearError } = useMarvelService();
+	const { loading, error, getEvent, clearError } = useEventService2();
 
 	useEffect(() => {
-		updateevent()
+		updateEvent()
 	}, [props.eventId])
 
-	const updateevent = () => {
+	const updateEvent = () => {
 		const { eventId } = props;
 		if (!eventId) {
 			return;
 		}
 
 		clearError();
-		geteventacter(eventId)
-			.then(oneventLoaded)
+		getEvent(collection(db, 'eventacters'), eventId)
+			.then(onEventLoaded)
 	}
 
-	const oneventLoaded = (event) => {
-		setevent(event);
+	const onEventLoaded = (event) => {
+		setEvent(event);
 	}
 
 	const skeleton = event || loading || error ? null : <Skeleton />;
@@ -49,7 +53,7 @@ const eventInfo = (props) => {
 }
 
 const View = ({ event }) => {
-	const { name, description, thumbnail, homepage, wiki, comics } = event;
+	const { title, description, thumbnail, homepage, wiki, comics } = event;
 
 	let imgStyle = { 'objectFit': 'cover' };
 	if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
@@ -59,9 +63,9 @@ const View = ({ event }) => {
 	return (
 		<>
 			<div className="event__basics">
-				<img src={thumbnail} alt={name} style={imgStyle} />
+				<img src={thumbnail} alt={title} style={imgStyle} />
 				<div>
-					<div className="event__info-name">{name}</div>
+					<div className="event__info-name">{title}</div>
 					<div className="event__btns">
 						<a href={homepage} className="button button__main">
 							<div className="inner">homepage</div>
@@ -84,18 +88,19 @@ const View = ({ event }) => {
 						if (i > 9) return;
 						return (
 							<li key={i} className="event__comics-item">
-								{item.name}
+								{item.event}
 							</li>
-						)
+						);
 					})
 				}
 			</ul>
+
 		</>
 	)
 }
 
-eventInfo.propTypes = {
+EventInfo2.propTypes = {
 	eventId: PropTypes.number
 }
 
-export default eventInfo;
+export default EventInfo2;

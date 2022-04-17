@@ -9,14 +9,14 @@ const useMarvelService = () => {
 
 	const _baseOffset = 210;
 
-	const getAllCharacters = async (offset = _baseOffset) => {
-		const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
-		return res.data.results.map(_transformCharacter);
+	const getAlleventacters = async (offset = _baseOffset) => {
+		const res = await request(`${_apiBase}eventacters?limit=9&offset=${offset}&${_apiKey}`);
+		return res.data.results.map(_transformeventacter);
 	}
 
-	const getCharacter = async (id) => {
-		const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
-		return _transformCharacter(res.data.results[0]);
+	const geteventacter = async (id) => {
+		const res = await request(`${_apiBase}eventacters/${id}?${_apiKey}`);
+		return _transformeventacter(res.data.results[0]);
 	}
 
 	const getAllComics = async (offset = 0) => {
@@ -29,15 +29,15 @@ const useMarvelService = () => {
 		return _transformComics(res.data.results[0]);
 	}
 
-	const _transformCharacter = (char) => {
+	const _transformeventacter = (event) => {
 		return {
-			id: char.id,
-			name: char.name,
-			description: char.description ? `${char.description.slice(0, 210)}...` : 'There is no description for this character',
-			thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
-			// homepage: char.urls[0].url,
-			// wiki: char.urls[1].url,
-			comics: char.comics.items
+			id: event.id,
+			name: event.name,
+			description: event.description ? `${event.description.slice(0, 210)}...` : 'There is no description for this eventacter',
+			thumbnail: event.thumbnail.path + '.' + event.thumbnail.extension,
+			// homepage: event.urls[0].url,
+			// wiki: event.urls[1].url,
+			comics: event.comics.items
 		}
 	}
 
@@ -54,7 +54,7 @@ const useMarvelService = () => {
 	}
 
 
-	return { loading, error, clearError, getAllCharacters, getCharacter, getAllComics, getComic }
+	return { loading, error, clearError, getAlleventacters, geteventacter, getAllComics, getComic }
 }
 
 export default useMarvelService;
