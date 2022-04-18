@@ -4,11 +4,11 @@ import Layout from '../layout/Layout';
 
 
 
-const Page404 = lazy(() => import('../pages/404'));
+const Page404 = lazy(() => import('../pages/Page404'));
 const MainPage = lazy(() => import('../pages/MainPage'));
-const ComicsPage = lazy(() => import('../pages/ComicsPage'));
-const SingleComicPage = lazy(() => import('../pages/SingleComicPage'));
-	
+const AllEventsPage = lazy(() => import('../pages/AllEventPage'));
+const SingleEventPage = lazy(() => import('../pages/SingleEventPage'));
+
 const App = () => {
 return (
 	<Router>
@@ -16,8 +16,8 @@ return (
 			<Routes>
 				<Route path="/" element={<Layout />} >
 					<Route index element={<MainPage />} />
-					<Route path="comics" element={<ComicsPage />} />
-					<Route path="/comics/:comicId" element={<SingleComicPage />} />
+					<Route path="event" element={<AllEventsPage />} />
+					<Route path="/event/:eventId" element={<SingleEventPage />} />
 					<Route path="*" element={<Page404 />} />
 				</Route>
 			</Routes>

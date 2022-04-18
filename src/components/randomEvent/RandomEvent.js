@@ -1,34 +1,35 @@
 import { useState, useEffect } from 'react';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import useMarvelService from '../../services/MarvelService';
-
-import './randomevent.scss';
+import useEventService from '../../services/EventService';
 import mjolnir from '../../resources/img/mjolnir.png';
+
+import './randomEvent.scss';
+
 
 const Randomevent = () => {
 
-	const [event, setevent] = useState(null);
-	const { loading, error, geteventacter, clearError } = useMarvelService();
+	const [event, setEvent] = useState(null);
+	const { loading, error, getEvent, clearError } = useEventService();
 
 	useEffect(() => {
-		updateevent();
-		const timerId = setInterval(updateevent, 60000);
+		updateEvent();
+		const timerId = setInterval(updateEvent, 60000);
 
 		return () => {
 			clearInterval(timerId)
 		}
 	}, [])
 
-	const oneventLoaded = (event) => {
-		setevent(event);
+	const onEventLoaded = (event) => {
+		setEvent(event);
 	}
 
-	const updateevent = () => {
+	const updateEvent = () => {
 		clearError();
 		const id = Math.floor(Math.random() * (1011400 - 1011000)) + 1011000;
-		geteventacter(id)
-			.then(oneventLoaded);
+		getEvent(id)
+			.then(onEventLoaded);
 	}
 
 	const errorMessage = error ? <ErrorMessage /> : null;
@@ -48,7 +49,7 @@ const Randomevent = () => {
 				<p className="randomevent__title">
 					Or choose another one
 				</p>
-				<button onClick={updateevent} className="button button__main">
+				<button onClick={updateEvent} className="button button__main">
 					<div className="inner">try it</div>
 				</button>
 				<img src={mjolnir} alt="mjolnir" className="randomevent__decoration" />

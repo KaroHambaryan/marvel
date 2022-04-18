@@ -5,40 +5,39 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import useEventService2 from '../../services/EventService2';
+import useEventService from '../../services/EventService';
 import './eventList.scss';
 
+const EventList = (props) => {
 
-const EventList2 = (props) => {
-
-	const [eventList, seteventList] = useState([]);
+	const [eventList, setEventList] = useState([]);
 	const [newItemLoading, setNewItemLoading] = useState(false);
-	const [offset, setOffset] = useState(collection(db, 'eventacters'));
-	const [eventEnded, seteventEnded] = useState(false);
-	const { loading, error, getAllEvents } = useEventService2();
+	const [ref, setRef] = useState(collection(db, 'event'));
+	const [eventEnded, setEventEnded] = useState(false);
+	const { loading, error, getAllEvents } = useEventService();
 
 	useEffect(() => {
-		onRequest(offset, true);
+		onRequest(ref, true);
 	}, [])
 
-	const onRequest = (offset, initial) => {
+	const onRequest = (ref, initial) => {
 		initial ? setNewItemLoading(false) : setNewItemLoading(true);
-		getAllEvents(offset)
+		getAllEvents(ref)
 			.then(onEventListLoaded)
 	}
 
-	const onEventListLoaded = (neweventList) => {
+	const onEventListLoaded = (newEventList) => {
 
 		let ended = false;
 
-		if (neweventList.length < 0) {
+		if (newEventList.length < 0) {
 			ended = true;
 		}
 
-		seteventList(eventList => [...eventList, ...neweventList]);
+		setEventList(eventList => [...eventList, ...newEventList]);
 		setNewItemLoading(newItemLoading => false);
-		setOffset(offset => offset);
-		seteventEnded(eventEnded => ended);
+		setRef(ref => ref);
+		setEventEnded(eventEnded => ended);
 
 	}
 
@@ -68,12 +67,12 @@ const EventList2 = (props) => {
 					key={item.id}
 					onClick={() => {
 						let id = item.id
-						props.oneventSelected(id);
+						props.onEventSelected(id);
 						focusOnItem(i);
 					}}
 					onKeyPress={(e) => {
 						if (e.key === ' ' || e.key === "Enter") {
-							props.oneventSelected(item.id);
+							props.onEventSelected(item.id);
 							focusOnItem(i);
 						}
 					}}>
@@ -102,21 +101,19 @@ const EventList2 = (props) => {
 			{errorMessage}
 			{spinner}
 			{items}
-			{console.log('eventEnded   ', eventEnded)}
 			<button
 				className="button button__main button__long"
 				disabled={newItemLoading}
 				style={{ 'display': eventEnded ? 'none' : 'block' }}
-				onClick={() => onRequest(offset)}>
+				onClick={() => onRequest(ref)}>
 				<div className="inner">load more</div>
 			</button>
-			{console.log('render')}
 		</div>
 	)
 }
 
-EventList2.propTypes = {
+EventList.propTypes = {
 	onEventSelected: PropTypes.func.isRequired
 }
 
-export default EventList2;
+export default EventList;

@@ -1,7 +1,7 @@
-import { useHttp2 } from '../hooks/http.hook2';
+import { useHttp2 } from '../hooks/http.hook';
 
 
-const useEventService2 = () => {
+const useEventService = () => {
 
 	const { loading, request, error, clearError } = useHttp2();
 
@@ -27,7 +27,7 @@ const useEventService2 = () => {
 			language: event.language ? event.language : 'us',
 			homepage: "https://www.youtube.com/watch?v=OyE49CsSdiU&t=8460s",
 			wiki: "https://developer.marvel.com/docs#!/public/getCreatorCollection_get_0",
-			comics: event.comics.items,
+			events: event.events.item,
 			price: event.price ? event.price : 'no 	price',
 		}
 	}
@@ -36,4 +36,4 @@ const useEventService2 = () => {
 	return { loading, error, clearError, getAllEvents, getEvent }
 }
 
-export default useEventService2;
+export default useEventService;

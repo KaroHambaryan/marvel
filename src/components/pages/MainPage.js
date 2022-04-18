@@ -1,18 +1,20 @@
 import { useState } from "react";
 
-import Randomevent from "../randomevent/Randomevent";
-import eventList from "../eventList/eventList";
-import eventInfo from "../eventInfo/eventInfo";
+import Randomevent from "../randomEvent/RandomEvent";
+import EventList from "../eventList/EventList";
+import EventInfo from "../eventInfo/EventInfo";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
-
 import decoration from '../../resources/img/vision.png';
+
 
 const MainPage = () => {
 
-	const [selectedevent, setevent] = useState(null);
+	const [event, setEvent] = useState(null);
 
-	const oneventSelected = (id) => {
-		setevent(id);
+	const onEventSelected = (id) => {
+
+		setEvent(id);
+
 	}
 
 	return (
@@ -22,11 +24,12 @@ const MainPage = () => {
 			</ErrorBoundary>
 			<div className="event__content">
 				<ErrorBoundary>
-					<eventList oneventSelected={oneventSelected} />
+					<EventList onEventSelected={onEventSelected} />
 				</ErrorBoundary>
 				<ErrorBoundary>
-					<eventInfo eventId={selectedevent} />
+					<EventInfo eventId={event} />
 				</ErrorBoundary>
+
 			</div>
 			<img className="bg-decoration" src={decoration} alt="vision" />
 		</>

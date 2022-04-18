@@ -4,7 +4,7 @@ import { collection } from "firebase/firestore";
 
 import PropTypes from 'prop-types';
 
-import useEventService2 from '../../services/EventService2';
+import useEventService from '../../services/EventService';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -12,11 +12,11 @@ import Skeleton from '../skeleton/Skeleton';
 
 import './eventInfo.scss';
 
-const eventInfo2 = (props) => {
+const EventInfo = (props) => {
 
 	const [event, setEvent] = useState(null);
 
-	const { loading, error, getEvent, clearError } = useEventService2();
+	const { loading, error, getEvent, clearError } = useEventService();
 
 	useEffect(() => {
 		updateEvent()
@@ -29,7 +29,7 @@ const eventInfo2 = (props) => {
 		}
 
 		clearError();
-		getEvent(collection(db, 'eventacters'), eventId)
+		getEvent(collection(db, 'event'), eventId)
 			.then(onEventLoaded)
 	}
 
@@ -53,7 +53,7 @@ const eventInfo2 = (props) => {
 }
 
 const View = ({ event }) => {
-	const { title, description, thumbnail, homepage, wiki, comics } = event;
+	const { title, description, thumbnail, homepage, wiki, events } = event;
 
 	let imgStyle = { 'objectFit': 'cover' };
 	if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
@@ -62,11 +62,11 @@ const View = ({ event }) => {
 
 	return (
 		<>
-			<div className="event__basics">
+			<div className="events__basics">
 				<img src={thumbnail} alt={title} style={imgStyle} />
 				<div>
-					<div className="event__info-name">{title}</div>
-					<div className="event__btns">
+					<div className="events__info-name">{title}</div>
+					<div className="events__btns">
 						<a href={homepage} className="button button__main">
 							<div className="inner">homepage</div>
 						</a>
@@ -76,19 +76,19 @@ const View = ({ event }) => {
 					</div>
 				</div>
 			</div>
-			<div className="event__descr">
+			<div className="events__descr">
 				{description}
 			</div>
-			<div className="event__comics">Comics:</div>
-			<ul className="event__comics-list">
-				{comics.length > 0 ? null : 'There is no comics with this eventacter'}
+			<div className="events__event">Comics:</div>
+			<ul className="events__event-list">
+				{events.length > 0 ? null : 'There is no comics with this eventacter'}
 				{
-					comics.map((item, i) => {
+					events.map((item, i) => {
 						// eslint-disable-next-line
 						if (i > 9) return;
 						return (
-							<li key={i} className="event__comics-item">
-								{item.event}
+							<li key={i} className="events__event-item">
+								{item.eventLocation}
 							</li>
 						);
 					})
@@ -99,8 +99,8 @@ const View = ({ event }) => {
 	)
 }
 
-EventInfo2.propTypes = {
+EventInfo.propTypes = {
 	eventId: PropTypes.number
 }
 
-export default EventInfo2;
+export default EventInfo;
