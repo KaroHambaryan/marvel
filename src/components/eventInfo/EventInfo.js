@@ -43,7 +43,7 @@ const EventInfo = (props) => {
 	const content = !(loading || error || !event) ? <View event={event} /> : null;
 
 	return (
-		<div className="event__info">
+		<div className="events__info">
 			{skeleton}
 			{errorMessage}
 			{spinner}
