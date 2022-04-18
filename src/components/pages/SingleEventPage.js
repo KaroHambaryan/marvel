@@ -12,7 +12,7 @@ import './singleEventPage.scss';
 const SingleEventPage = () => {
 	const { eventId } = useParams();
 	const [event, setEvent] = useState(null);
-	const { loading, error, getAllEvents, clearError } = useEventService();
+	const { loading, error, getEvent, clearError } = useEventService();
 
 	useEffect(() => {
 		updateEvent()
@@ -20,7 +20,7 @@ const SingleEventPage = () => {
 
 	const updateEvent = () => {
 		clearError();
-		getAllEvents(collection(db, 'event'), eventId)
+		getEvent(collection(db, 'event'), eventId)
 			.then(onEventLoaded)
 	}
 
@@ -30,7 +30,7 @@ const SingleEventPage = () => {
 
 	const errorMessage = error ? <ErrorMessage /> : null;
 	const spinner = loading ? <Spinner /> : null;
-	const content = !(loading || error || !event) ? <View comic={event} /> : null;
+	const content = !(loading || error || !event) ? <View event={event} /> : null;
 
 	return (
 		<>
@@ -55,7 +55,7 @@ const View = ({ event }) => {
 				<p className="single-event__descr">Language: {language}</p>
 				<div className="single-event__price">{price}</div>
 			</div>
-			<Link to="event" className="single-event__back">Back to all</Link>
+			<Link to="/event" className="single-event__back">Back to all</Link>
 		</div>
 	)
 }

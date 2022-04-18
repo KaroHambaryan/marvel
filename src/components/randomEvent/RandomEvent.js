@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { collection } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useEventService from '../../services/EventService';
@@ -7,10 +10,11 @@ import mjolnir from '../../resources/img/mjolnir.png';
 import './randomEvent.scss';
 
 
+
 const Randomevent = () => {
 
 	const [event, setEvent] = useState(null);
-	const { loading, error, getEvent, clearError } = useEventService();
+	const { loading, error, getAllEvents, clearError } = useEventService();
 
 	useEffect(() => {
 		updateEvent();
@@ -27,8 +31,7 @@ const Randomevent = () => {
 
 	const updateEvent = () => {
 		clearError();
-		const id = Math.floor(Math.random() * (1011400 - 1011000)) + 1011000;
-		getEvent(id)
+		getAllEvents(collection(db, 'event'))
 			.then(onEventLoaded);
 	}
 
@@ -64,10 +67,11 @@ const View = ({ event }) => {
 	if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
 		imgStyle = { 'objectFit': 'contain' };
 	}
-
+{console.log(event)}
 	return (
 		<div className="randomevent__block">
 			<img src={thumbnail} alt="Random eventacter" className="randomevent__img" style={imgStyle} />
+			
 			<div className="randomevent__info">
 				<p className="randomevent__name">{name}</p>
 				<p className="randomevent__descr">
