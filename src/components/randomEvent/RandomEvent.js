@@ -62,18 +62,18 @@ const Randomevent = () => {
 }
 
 const View = ({ event }) => {
-	const { name, description, thumbnail, homepage, wiki } = event;
-	let imgStyle = { 'objectFit': 'cover' };
+	const { title, description, thumbnail, homepage, wiki } = event;
+	console.log(title);
+	let imgStyle = { 'objectFit' : 'cover' };
 	if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
 		imgStyle = { 'objectFit': 'contain' };
 	}
-{console.log(event)}
 	return (
 		<div className="randomevent__block">
 			<img src={thumbnail} alt="Random eventacter" className="randomevent__img" style={imgStyle} />
 			
 			<div className="randomevent__info">
-				<p className="randomevent__name">{name}</p>
+				<p className="randomevent__name">{title}</p>
 				<p className="randomevent__descr">
 					{description}
 				</p>
